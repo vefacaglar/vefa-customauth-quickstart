@@ -4,22 +4,24 @@
     ViewData["Title"] = "Sign out";
 }
 
-<div class="row justify-content-center">
+<div class="row justify-content-center mt-4">
     <div class="col-md-5">
-        <h1 class="h3 mb-4">Sign out</h1>
+        <div class="glass-card">
+            <h1 class="h3 mb-4" style="color: var(--text-white);">Sign out</h1>
 
-        @if (Model.SignedOut)
-        {
-            <div class="alert alert-success">You have been signed out of the authorization server.</div>
-            <a class="btn btn-outline-secondary" asp-page="/Index">Back to home</a>
-        }
-        else
-        {
-            <p>Are you sure you want to sign out?</p>
-            <form method="post">
-                <button type="submit" class="btn btn-primary">Yes, sign out</button>
-                <a class="btn btn-outline-secondary" asp-page="/Index">Cancel</a>
-            </form>
-        }
+            @if (Model.SignedOut)
+            {
+                <div class="alert alert-success">You have been successfully signed out of the authorization server.</div>
+                <a class="btn btn-primary w-100" asp-page="/Index">Back to home</a>
+            }
+            else
+            {
+                <p class="mb-4 text-muted">Are you sure you want to terminate your SSO session and sign out?</p>
+                <form method="post" class="d-flex gap-2">
+                    <button type="submit" class="btn btn-outline-danger" style="flex: 1;">Yes, sign out</button>
+                    <a class="btn btn-outline-primary" asp-page="/Index" style="flex: 1;">Cancel</a>
+                </form>
+            }
+        </div>
     </div>
 </div>

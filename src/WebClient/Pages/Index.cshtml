@@ -4,25 +4,41 @@
     ViewData["Title"] = "Home";
 }
 
-<div class="px-4 py-3">
-    <h1 class="display-6">Vefa CustomAuth — Web Client</h1>
-    <p class="lead">A relying-party application that signs users in via OpenID Connect.</p>
+<div class="glass-card mt-3">
+    <h1 class="display-6">Web Client Dashboard</h1>
+    <p class="lead mb-4">A Relying-Party application demonstrating OAuth2 / OpenID Connect authorization code flow with PKCE.</p>
 
     @if (Model.IsSignedIn)
     {
-        <div class="alert alert-success">
-            You are signed in as <strong>@Model.DisplayName</strong>.
+        <div class="alert alert-success mb-4 d-flex align-items-center gap-2">
+            <div>
+                Authentication state: <strong>Active SSO Session</strong>. Signed in as <strong>@Model.DisplayName</strong>.
+            </div>
         </div>
-        <a class="btn btn-primary" asp-page="/Secure">Go to secure area</a>
-        <a class="btn btn-outline-danger" href="/logout">Sign out</a>
+        
+        <div class="d-flex gap-3">
+            <a class="btn btn-primary" asp-page="/Secure">Secure Dashboard</a>
+            <a class="btn btn-outline-danger" href="/logout">Sign out</a>
+        </div>
     }
     else
     {
-        <p>You are not signed in.</p>
-        <a class="btn btn-primary" asp-page="/Secure">Sign in</a>
-        <p class="text-muted mt-2">
-            Signing in redirects you to the authorization server. Use <code>alice / Pass123$</code>
-            or <code>bob / Pass123$</code>.
+        <div class="alert alert-secondary mb-4 d-flex align-items-center gap-2">
+            <div>
+                Authentication state: <strong>Anonymous Guest</strong>.
+            </div>
+        </div>
+
+        <p class="text-muted mb-4">
+            Click below to initiate the OpenID Connect challenge. This will securely redirect you to the authorization server to authenticate.
         </p>
+
+        <div class="d-flex flex-column gap-3 align-items-start">
+            <a class="btn btn-primary" asp-page="/Secure">Authenticate via OIDC</a>
+            
+            <div class="text-muted mt-2" style="font-size: 0.8rem; border-top: 1px solid var(--border-color); padding-top: 1rem; width: 100%;">
+                Test accounts: <code>alice</code> / <code>Pass123$</code> or <code>bob</code> / <code>Pass123$</code>.
+            </div>
+        </div>
     }
 </div>

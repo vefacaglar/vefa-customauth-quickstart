@@ -5,24 +5,44 @@
     var issuer = Model.Issuer;
 }
 
-<div class="px-4 py-3">
-    <h1 class="display-6">Vefa CustomAuth — Authorization Server</h1>
-    <p class="lead">An OAuth2 / OpenID Connect provider powered by the <code>Vefa.CustomAuth</code> packages.</p>
+<div class="glass-card mt-3">
+    <h1 class="display-6">Vefa CustomAuth</h1>
+    <p class="lead mb-4">An advanced, lightweight OAuth2 / OpenID Connect provider powered by the Vefa.CustomAuth packages.</p>
 
-    <h2 class="h5 mt-4">Discovery</h2>
-    <ul>
-        <li><a href="@issuer/.well-known/openid-configuration" target="_blank">/.well-known/openid-configuration</a></li>
-        <li><a href="@issuer/.well-known/jwks.json" target="_blank">/.well-known/jwks.json</a></li>
-    </ul>
+    <div class="row gap-3 mt-4" style="flex-direction: row; flex-wrap: wrap;">
+        <div class="glass-card flex-column" style="flex: 1 1 300px; padding: 1.5rem;">
+            <h3 class="mb-3">Discovery Configuration</h3>
+            <p class="text-muted mb-3" style="font-size: 0.85rem;">Standard OIDC discovery and cryptographic signing key set endpoints:</p>
+            <div class="d-flex flex-column gap-2">
+                <a href="@issuer/.well-known/openid-configuration" target="_blank" class="copy-badge" data-copy="@issuer/.well-known/openid-configuration" data-copy-label="Discovery URL copied!" style="justify-content: space-between;">
+                    <span>openid-configuration</span>
+                </a>
+                <a href="@issuer/.well-known/jwks.json" target="_blank" class="copy-badge" data-copy="@issuer/.well-known/jwks.json" data-copy-label="JWKS URL copied!" style="justify-content: space-between;">
+                    <span>jwks.json</span>
+                </a>
+            </div>
+        </div>
 
-    <h2 class="h5 mt-4">Test users</h2>
-    <ul>
-        <li><code>alice</code> / <code>Pass123$</code></li>
-        <li><code>bob</code> / <code>Pass123$</code></li>
-    </ul>
+        <div class="glass-card flex-column" style="flex: 1 1 300px; padding: 1.5rem;">
+            <h3 class="mb-3">Test Accounts</h3>
+            <p class="text-muted mb-3" style="font-size: 0.85rem;">Click badge to copy it instantly:</p>
+            <div class="d-flex flex-column gap-2">
+                <div class="d-flex justify-content-between align-items-center bg-dark p-2 rounded" style="background: #090a0f !important; border-radius: 4px; padding: 0.5rem 0.75rem !important;">
+                    <span class="copy-badge" data-copy="alice" data-copy-label="Username 'alice' copied!">alice</span>
+                    <span class="text-muted" style="font-size: 0.8rem;">Password:</span>
+                    <span class="copy-badge" data-copy="Pass123$" data-copy-label="Password copied!">Pass123$</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center bg-dark p-2 rounded" style="background: #090a0f !important; border-radius: 4px; padding: 0.5rem 0.75rem !important;">
+                    <span class="copy-badge" data-copy="bob" data-copy-label="Username 'bob' copied!">bob</span>
+                    <span class="text-muted" style="font-size: 0.8rem;">Password:</span>
+                    <span class="copy-badge" data-copy="Pass123$" data-copy-label="Password copied!">Pass123$</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <p class="text-muted mt-4">
-        Start the sign-in flow from the <strong>Web Client</strong> application rather than here —
-        the authorize endpoint will redirect you to <a asp-page="/Account/Login">the login page</a> when needed.
-    </p>
+    <div class="alert alert-secondary mt-4">
+        Start the sign-in flow directly from the Web Client application.
+        The authorization endpoint will automatically route you to the <a asp-page="/Account/Login" style="text-decoration: underline;">Secure Login Portal</a> when authentication is required.
+    </div>
 </div>

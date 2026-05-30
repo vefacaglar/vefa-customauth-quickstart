@@ -4,37 +4,51 @@
     ViewData["Title"] = "Sign in";
 }
 
-<div class="row justify-content-center">
+<div class="row justify-content-center mt-4">
     <div class="col-md-5">
-        <h1 class="h3 mb-4">Sign in</h1>
-
-        @if (!string.IsNullOrEmpty(Model.Error))
-        {
-            <div class="alert alert-danger" role="alert">@Model.Error</div>
-        }
-
-        <form method="post">
-            <input type="hidden" asp-for="ReturnUrl" />
-
-            <div class="mb-3">
-                <label asp-for="UserName" class="form-label">Username</label>
-                <input asp-for="UserName" class="form-control" autocomplete="username" autofocus />
+        <div class="glass-card">
+            <div class="text-center mb-4">
+                <h1 class="h3" style="font-size: 1.5rem; font-weight: 700; color: var(--text-white);">Sign in</h1>
+                <p class="text-muted" style="font-size: 0.85rem;">Authentication required</p>
             </div>
 
-            <div class="mb-3">
-                <label asp-for="Password" class="form-label">Password</label>
-                <input asp-for="Password" type="password" class="form-control" autocomplete="current-password" />
+            @if (!string.IsNullOrEmpty(Model.Error))
+            {
+                <div class="alert alert-danger" role="alert">@Model.Error</div>
+            }
+
+            <form method="post">
+                <input type="hidden" asp-for="ReturnUrl" />
+
+                <div class="mb-3">
+                    <label asp-for="UserName" class="form-label">Username</label>
+                    <input asp-for="UserName" class="form-control" placeholder="username" autocomplete="username" autofocus />
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="Password" class="form-label">Password</label>
+                    <input asp-for="Password" type="password" class="form-control" placeholder="password" autocomplete="current-password" />
+                </div>
+
+                <div class="d-flex gap-2 mb-3">
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">Sign in</button>
+                    <a class="btn btn-outline-primary" asp-page="/Index" style="flex: 1;">Cancel</a>
+                </div>
+            </form>
+
+            <div class="alert alert-secondary mt-3 mb-0" style="padding: 1rem;">
+                <div style="font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 0.5rem;">Test Credentials</div>
+                <div class="d-flex flex-column gap-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="chip" data-quickfill-user="alice" data-quickfill-pass="Pass123$">
+                            <code>alice</code>
+                        </span>
+                        <span class="chip" data-quickfill-user="bob" data-quickfill-pass="Pass123$">
+                            <code>bob</code>
+                        </span>
+                    </div>
+                </div>
             </div>
-
-            <button type="submit" class="btn btn-primary w-100">Sign in</button>
-        </form>
-
-        <div class="alert alert-secondary mt-4 mb-0">
-            <strong>Test users</strong>
-            <ul class="mb-0">
-                <li><code>alice</code> / <code>Pass123$</code></li>
-                <li><code>bob</code> / <code>Pass123$</code></li>
-            </ul>
         </div>
     </div>
 </div>
