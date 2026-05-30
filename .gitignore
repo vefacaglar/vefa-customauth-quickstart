@@ -1,0 +1,140 @@
+## ==========================================
+## Vefa.CustomAuth Quickstart — runtime SQLite databases
+## ==========================================
+*.db
+*.db-shm
+*.db-wal
+
+## ==========================================
+## .NET / C# Temel Çıktıları
+## ==========================================
+# Build ve Deploy Çıktıları
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Re]leasePublic/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bsearch/
+gshared/
+[Bb]in/
+[Oo]bj/
+[Cc]onfig/
+
+# Profiler ve Analiz Araçları
+*.sir
+*.suo
+*.user
+*.usermd
+*.aps
+*.pch
+*.vspscc
+*.vshost.exe
+*.vshost.exe.manifest
+*.manifest
+*.gcno
+*.gcov
+
+## ==========================================
+## NuGet Paket Yönetimi
+## ==========================================
+# Proje içi paket klasörü (Eski tip veya özel durumlar için)
+**/packages/*
+!**/packages/repositories.config
+
+# NuGet paket geri yükleme kalıntıları
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## ==========================================
+## Geliştirme Ortamları (IDEs)
+## ==========================================
+
+# --- Visual Studio ---
+.vs/
+*.userosscache
+*.sln.docstates
+
+# --- Visual Studio Code ---
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# --- JetBrains Rider / Resharper ---
+.idea/
+*.sln.DotSettings.user
+
+## ==========================================
+## Test ve Kod Analizi Araçları
+## ==========================================
+# Test çıktıları ve kapsama (Coverage) raporları
+TestResults/
+**/TestResults/
+*.codecoverage
+*.coverage
+_Chutzpah*
+
+# SonarQube / Roslyn Analizörleri
+.sonar/
+.sonarlint/
+.roslyn/
+*.DotSettings
+_ReSharper*/
+
+## ==========================================
+## İşletim Sistemi ve Genel Dosyalar
+## ==========================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+## ==========================================
+## Güvenlik ve Yerel Ayarlar (ÖNEMLİ)
+## ==========================================
+# Yerel kullanıcı sırları ve konfigürasyonları
+*.user
+appsettings.Development.json
+appsettings.Local.json
+*.secrets.json
+.env
+.env.*
+!.env.example
+
+## ==========================================
+## Opsiyonel / Ek Teknolojiler
+## ==========================================
+# Frontend (Eğer projenizde Blazor/SPA varsa)
+node_modules/
+/dist/
+/.angular/
+/.next/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Docker ve Local Yayın (Publish)
+.dockerignore
+/Publish/
+/publish/
+
+
+# Projedeki tüm www/lib ve wwwroot/lib klasörlerini ve içeriklerini tamamen engeller
+**/www/lib/
+**/wwwroot/lib/
+
+# Alternatif olarak ismi sadece 'lib' olan ve web kök dizinlerinde bulunan klasörler için:
+wwwroot/lib/
+www/lib/

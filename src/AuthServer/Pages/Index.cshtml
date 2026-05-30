@@ -1,0 +1,28 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Authorization Server";
+    var issuer = Model.Issuer;
+}
+
+<div class="px-4 py-3">
+    <h1 class="display-6">Vefa CustomAuth — Authorization Server</h1>
+    <p class="lead">An OAuth2 / OpenID Connect provider powered by the <code>Vefa.CustomAuth</code> packages.</p>
+
+    <h2 class="h5 mt-4">Discovery</h2>
+    <ul>
+        <li><a href="@issuer/.well-known/openid-configuration" target="_blank">/.well-known/openid-configuration</a></li>
+        <li><a href="@issuer/.well-known/jwks.json" target="_blank">/.well-known/jwks.json</a></li>
+    </ul>
+
+    <h2 class="h5 mt-4">Test users</h2>
+    <ul>
+        <li><code>alice</code> / <code>Pass123$</code></li>
+        <li><code>bob</code> / <code>Pass123$</code></li>
+    </ul>
+
+    <p class="text-muted mt-4">
+        Start the sign-in flow from the <strong>Web Client</strong> application rather than here —
+        the authorize endpoint will redirect you to <a asp-page="/Account/Login">the login page</a> when needed.
+    </p>
+</div>

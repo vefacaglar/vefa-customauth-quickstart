@@ -1,0 +1,28 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="px-4 py-3">
+    <h1 class="display-6">Vefa CustomAuth — Web Client</h1>
+    <p class="lead">A relying-party application that signs users in via OpenID Connect.</p>
+
+    @if (Model.IsSignedIn)
+    {
+        <div class="alert alert-success">
+            You are signed in as <strong>@Model.DisplayName</strong>.
+        </div>
+        <a class="btn btn-primary" asp-page="/Secure">Go to secure area</a>
+        <a class="btn btn-outline-danger" href="/logout">Sign out</a>
+    }
+    else
+    {
+        <p>You are not signed in.</p>
+        <a class="btn btn-primary" asp-page="/Secure">Sign in</a>
+        <p class="text-muted mt-2">
+            Signing in redirects you to the authorization server. Use <code>alice / Pass123$</code>
+            or <code>bob / Pass123$</code>.
+        </p>
+    }
+</div>

@@ -1,0 +1,40 @@
+@page
+@model WebClient.Pages.SecureModel
+@{
+    ViewData["Title"] = "Secure";
+}
+
+<h1 class="h3 mb-4">Secure area</h1>
+<p>This page requires authentication. You signed in through the Vefa CustomAuth authorization server.</p>
+
+<h2 class="h5 mt-4">Your claims</h2>
+<table class="table table-sm table-striped">
+    <thead><tr><th>Type</th><th>Value</th></tr></thead>
+    <tbody>
+    @foreach (var claim in Model.Claims)
+    {
+        <tr><td><code>@claim.Key</code></td><td>@claim.Value</td></tr>
+    }
+    </tbody>
+</table>
+
+<h2 class="h5 mt-4">Tokens</h2>
+<div class="mb-2"><strong>Access token</strong><pre class="bg-light p-2 small text-wrap text-break">@Model.AccessToken</pre></div>
+<div class="mb-2"><strong>ID token</strong><pre class="bg-light p-2 small text-wrap text-break">@Model.IdToken</pre></div>
+<div class="mb-2"><strong>Refresh token</strong><pre class="bg-light p-2 small text-wrap text-break">@Model.RefreshToken</pre></div>
+
+<h2 class="h5 mt-4">Call the protected API</h2>
+<form method="post" asp-page-handler="CallApi">
+    <button type="submit" class="btn btn-primary">GET /identity (with access token)</button>
+</form>
+
+@if (Model.ApiResponse is not null)
+{
+    <pre class="bg-light p-2 mt-3 small text-wrap text-break">@Model.ApiResponse</pre>
+}
+@if (Model.ApiError is not null)
+{
+    <div class="alert alert-danger mt-3">@Model.ApiError</div>
+}
+
+<a class="btn btn-outline-danger mt-3" href="/logout">Sign out</a>
