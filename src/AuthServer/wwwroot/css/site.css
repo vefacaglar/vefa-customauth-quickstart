@@ -11,7 +11,6 @@
   --primary-text: #0f0e0d;
   
   --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-input: Arial, Helvetica, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
@@ -24,20 +23,17 @@
 /* Force absolute size and font consistency on all inputs globally from the first frame */
 input,
 select,
-textarea {
-  font-family: var(--font-input) !important;
-  font-size: 16px !important;
-  line-height: 1.25 !important;
-}
-
+textarea,
 button {
+  font-size: 16px !important;
   font-family: var(--font-sans) !important;
 }
 
 /* Ensure placeholder texts also match the size and font family exactly */
 input::placeholder,
 .form-control::placeholder {
-  font: inherit !important;
+  font-size: 16px !important;
+  font-family: var(--font-sans) !important;
 }
 
 html, body {
@@ -183,9 +179,8 @@ a:hover {
   color: var(--text-white) !important;
   appearance: none;
   -webkit-appearance: none;
-  font-family: var(--font-input) !important;
+  font-family: var(--font-sans) !important;
   font-size: 16px !important;
-  line-height: 1.25 !important;
   padding: 0.65rem 0.85rem;
   transition: border-color 0.15s ease;
 }
@@ -403,33 +398,13 @@ input:-internal-autofill-previewed {
   -webkit-box-shadow: 0 0 0 1000px #090808 inset !important;
   -webkit-text-fill-color: #f5f4f0 !important;
   caret-color: #f5f4f0 !important;
-  font-family: Arial, Helvetica, sans-serif !important;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
   font-size: 16px !important;
-  line-height: 1.25 !important;
   letter-spacing: normal !important;
-  /* Force Chrome to recalc styles the moment autofill paints, so the
-     correct font-size applies on the first frame instead of after a click. */
-  animation-name: onAutofill;
-  animation-duration: 0.001s;
-  animation-fill-mode: both;
-}
-
-/* No visual change — the animation exists purely to trigger a style
-   recalculation on the autofilled input as soon as it is painted. */
-@keyframes onAutofill {
-  from {
-    font-size: 16px;
-    -webkit-text-fill-color: #f5f4f0;
-  }
-  to {
-    font-size: 16px;
-    -webkit-text-fill-color: #f5f4f0;
-  }
 }
 
 /* Specific fix for text size inside autofilled inputs on initial load */
 input:-webkit-autofill::first-line {
-  font-family: Arial, Helvetica, sans-serif !important;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
   font-size: 16px !important;
-  line-height: 1.25 !important;
 }
