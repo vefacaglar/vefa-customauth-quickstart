@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace WebClient.Pages;
+namespace VefaCustomAuth.Quickstart.WebClient.Pages;
 
 public class IndexModel : PageModel
 {

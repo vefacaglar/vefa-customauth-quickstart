@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Vefa.CustomAuth.AspNetCore.Extensions;
 using Vefa.CustomAuth.Core.Stores;
 
-namespace AuthServer.Pages.Account;
+namespace VefaCustomAuth.Quickstart.AuthServer.Pages.Account;
 
 public class LoginModel : PageModel
 {

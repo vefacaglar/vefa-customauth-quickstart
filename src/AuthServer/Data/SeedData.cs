@@ -5,7 +5,7 @@ using Vefa.CustomAuth.Core.Models;
 using Vefa.CustomAuth.EntityFrameworkCore;
 using Vefa.CustomAuth.Tokens.Signing;
 
-namespace AuthServer.Data;
+namespace VefaCustomAuth.Quickstart.AuthServer.Data;
 
 /// <summary>
 /// Creates the SQLite database and seeds the demo configuration on startup:

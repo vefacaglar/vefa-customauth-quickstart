@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace AuthServer.Data;
+namespace VefaCustomAuth.Quickstart.AuthServer.Data;
 
 /// <summary>
 /// The main application database. Derives from <see cref="IdentityDbContext{TUser}"/>

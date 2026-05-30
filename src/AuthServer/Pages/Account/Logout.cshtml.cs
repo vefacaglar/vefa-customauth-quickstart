@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Vefa.CustomAuth.AspNetCore.Extensions;
 
-namespace AuthServer.Pages.Account;
+namespace VefaCustomAuth.Quickstart.AuthServer.Pages.Account;
 
 public class LogoutModel : PageModel
 {

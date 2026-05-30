@@ -1,4 +1,4 @@
-using AuthServer.Data;
+using VefaCustomAuth.Quickstart.AuthServer.Data;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

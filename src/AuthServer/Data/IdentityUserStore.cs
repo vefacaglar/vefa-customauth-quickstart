@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Vefa.CustomAuth.Core.Stores;
 
-namespace AuthServer.Data;
+namespace VefaCustomAuth.Quickstart.AuthServer.Data;
 
 /// <summary>
 /// Bridges ASP.NET Core Identity to Vefa.CustomAuth. Credential validation and

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 
-namespace AuthServer.Data;
+namespace VefaCustomAuth.Quickstart.AuthServer.Data;
 
 /// <summary>
 /// Application user, managed by ASP.NET Core Identity. The extra profile fields

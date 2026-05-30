@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Vefa.CustomAuth.Core.Models;
 using Vefa.CustomAuth.EntityFrameworkCore;
 
-namespace AuthServer.Data;
+namespace VefaCustomAuth.Quickstart.AuthServer.Data;
 
 /// <summary>
 /// Vefa.CustomAuth protocol persistence, in its own database. Derives from

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace WebClient.Pages;
+namespace VefaCustomAuth.Quickstart.WebClient.Pages;
 
 [Authorize]
 public class SecureModel : PageModel
