@@ -395,8 +395,8 @@ code {
 
 /* Browser Autofill Overrides */
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
 input:-webkit-autofill:active,
 input:-internal-autofill-selected,
 input:-internal-autofill-previewed {
@@ -407,6 +407,24 @@ input:-internal-autofill-previewed {
   font-size: 16px !important;
   line-height: 1.25 !important;
   letter-spacing: normal !important;
+  /* Force Chrome to recalc styles the moment autofill paints, so the
+     correct font-size applies on the first frame instead of after a click. */
+  animation-name: onAutofill;
+  animation-duration: 0.001s;
+  animation-fill-mode: both;
+}
+
+/* No visual change — the animation exists purely to trigger a style
+   recalculation on the autofilled input as soon as it is painted. */
+@keyframes onAutofill {
+  from {
+    font-size: 16px;
+    -webkit-text-fill-color: #f5f4f0;
+  }
+  to {
+    font-size: 16px;
+    -webkit-text-fill-color: #f5f4f0;
+  }
 }
 
 /* Specific fix for text size inside autofilled inputs on initial load */

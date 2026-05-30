@@ -41,6 +41,24 @@ function quickFill(username, password) {
     }
 }
 
+// Chrome-only autofill fix: Chrome paints autofilled values with the wrong
+// (small) font on first load and only snaps to our CSS font-size after the
+// user clicks. The `onAutofill` keyframe in site.css fires an animationstart
+// event the moment Chrome fills a field — we catch it and force a repaint of
+// that input so the correct font-size applies immediately, no click needed.
+// We never read or rewrite the field value (Chrome hides autofilled passwords
+// from JS until a user gesture), so this is purely a non-destructive reflow.
+document.addEventListener('animationstart', (e) => {
+    if (e.animationName !== 'onAutofill') return;
+    const input = e.target;
+    // Toggle a GPU layer + read layout to force Chrome to re-render the text.
+    input.style.transform = 'translateZ(0)';
+    void input.offsetHeight; // force reflow
+    requestAnimationFrame(() => {
+        input.style.transform = '';
+    });
+});
+
 // Add event listeners to any element with data-copy attribute
 document.addEventListener('DOMContentLoaded', () => {
     document.body.addEventListener('click', (e) => {
