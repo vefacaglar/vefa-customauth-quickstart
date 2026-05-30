@@ -138,3 +138,4 @@ yarn-error.log*
 # Alternatif olarak ismi sadece 'lib' olan ve web kök dizinlerinde bulunan klasörler için:
 wwwroot/lib/
 www/lib/
+.claude
