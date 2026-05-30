@@ -16,4 +16,10 @@ public class DataProtectionKeysDbContext : DbContext, IDataProtectionKeyContext
     }
 
     public DbSet<DataProtectionKey> DataProtectionKeys => Set<DataProtectionKey>();
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.Entity<DataProtectionKey>().ToTable("Keys");
+    }
 }

@@ -23,10 +23,11 @@ var dataProtectionConnectionString = builder.Configuration.GetConnectionString("
 // others.
 
 // --- 1) CustomAuth protocol persistence (EF Core + SQLite) -----------------
-// Registers the built-in CustomAuthDbContext + EF stores. Done BEFORE
-// AddCustomAuth so the EF stores win the TryAdd registrations (otherwise
-// AddCustomAuth registers in-memory scope/audit stores).
-builder.Services.AddCustomAuthEntityFrameworkCore(o => o.UseSqlite(protocolConnectionString));
+// Uses a derived context (CustomAuthProtocolDbContext) so the protocol tables
+// can be renamed. Registered BEFORE AddCustomAuth so the EF stores win the
+// TryAdd registrations (otherwise AddCustomAuth registers in-memory stores).
+builder.Services.AddDbContext<CustomAuthProtocolDbContext>(o => o.UseSqlite(protocolConnectionString));
+builder.Services.AddCustomAuthStores<CustomAuthProtocolDbContext>();
 
 // --- 2) Main application database + ASP.NET Core Identity -------------------
 // ApplicationDbContext is the primary app database (Identity tables today, more

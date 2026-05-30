@@ -22,7 +22,7 @@ public static class SeedData
         var sp = scope.ServiceProvider;
 
         // Each context owns a separate database; create them all.
-        await sp.GetRequiredService<CustomAuthDbContext>().Database.EnsureCreatedAsync();
+        await sp.GetRequiredService<CustomAuthProtocolDbContext>().Database.EnsureCreatedAsync();
         await sp.GetRequiredService<ApplicationDbContext>().Database.EnsureCreatedAsync();
         await sp.GetRequiredService<DataProtectionKeysDbContext>().Database.EnsureCreatedAsync();
 

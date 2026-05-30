@@ -99,13 +99,15 @@ On the **Secure** page you can inspect your tokens/claims and call the protected
 
 Everything is driven from `appsettings.json` (overridable via environment variables):
 
-- **AuthServer** — `ConnectionStrings:CustomAuth` (SQLite, default `customauth.db`),
-  `CustomAuth:Issuer`, `CustomAuth:RequireHttps`, `Clients:WebClient:BaseUrl`.
+- **AuthServer** — `ConnectionStrings:Application` / `:CustomAuth` / `:DataProtection`
+  (SQLite), `CustomAuth:Issuer`, `CustomAuth:RequireHttps`, `Clients:WebClient:BaseUrl`.
 - **WebClient** — `CustomAuth:Authority`, `CustomAuth:ApiBaseUrl`, `CustomAuth:RequireHttpsMetadata`.
 - **Api** — `CustomAuth:Authority`, `CustomAuth:RequireHttpsMetadata`.
 
-The SQLite database is created automatically on startup (`EnsureCreated`) and is
-git-ignored.
+The SQLite databases are created automatically on startup (`EnsureCreated`) and are
+git-ignored. All table names are prefix-free (e.g. `Users`/`Roles`, `Clients`/`Scopes`/
+`RefreshTokens`, `Keys`) — the Identity `AspNet*` and Vefa.CustomAuth `CustomAuth*`
+prefixes are renamed via `ToTable(...)` in each context's `OnModelCreating`.
 
 ## The `web-client` registration
 
