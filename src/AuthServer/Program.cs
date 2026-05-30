@@ -62,7 +62,10 @@ builder.Services
         // must not also map its built-in POST /Account/Login endpoint.
         options.MapDefaultLoginEndpoint = false;
     })
-    .AddJwtTokenSigning();
+    .AddJwtTokenSigning()
+    .AddSigningCertificate(
+        builder.Configuration["SigningCertificate:Path"]!,
+        builder.Configuration["SigningCertificate:Password"]);
 
 var app = builder.Build();
 

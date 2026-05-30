@@ -6,9 +6,9 @@
 *.db-wal
 
 ## ==========================================
-## .NET / C# Temel Çıktıları
+## .NET / C# Core Outputs
 ## ==========================================
-# Build ve Deploy Çıktıları
+# Build and Deploy Outputs
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
@@ -23,7 +23,7 @@ gshared/
 [Oo]bj/
 [Cc]onfig/
 
-# Profiler ve Analiz Araçları
+# Profiler and Analysis Tools
 *.sir
 *.suo
 *.user
@@ -38,19 +38,19 @@ gshared/
 *.gcov
 
 ## ==========================================
-## NuGet Paket Yönetimi
+## NuGet Package Management
 ## ==========================================
-# Proje içi paket klasörü (Eski tip veya özel durumlar için)
+# In-project package folder (legacy or special cases)
 **/packages/*
 !**/packages/repositories.config
 
-# NuGet paket geri yükleme kalıntıları
+# NuGet package restore artifacts
 project.lock.json
 project.fragment.lock.json
 artifacts/
 
 ## ==========================================
-## Geliştirme Ortamları (IDEs)
+## Development Environments (IDEs)
 ## ==========================================
 
 # --- Visual Studio ---
@@ -71,16 +71,16 @@ artifacts/
 *.sln.DotSettings.user
 
 ## ==========================================
-## Test ve Kod Analizi Araçları
+## Test and Code Analysis Tools
 ## ==========================================
-# Test çıktıları ve kapsama (Coverage) raporları
+# Test outputs and coverage reports
 TestResults/
 **/TestResults/
 *.codecoverage
 *.coverage
 _Chutzpah*
 
-# SonarQube / Roslyn Analizörleri
+# SonarQube / Roslyn Analyzers
 .sonar/
 .sonarlint/
 .roslyn/
@@ -88,7 +88,7 @@ _Chutzpah*
 _ReSharper*/
 
 ## ==========================================
-## İşletim Sistemi ve Genel Dosyalar
+## Operating System and General Files
 ## ==========================================
 # macOS
 .DS_Store
@@ -102,9 +102,9 @@ ehthumbs.db
 Desktop.ini
 
 ## ==========================================
-## Güvenlik ve Yerel Ayarlar (ÖNEMLİ)
+## Security and Local Settings (IMPORTANT)
 ## ==========================================
-# Yerel kullanıcı sırları ve konfigürasyonları
+# Local user secrets and configurations
 *.user
 appsettings.Development.json
 appsettings.Local.json
@@ -112,11 +112,12 @@ appsettings.Local.json
 .env
 .env.*
 !.env.example
+*.pfx
 
 ## ==========================================
-## Opsiyonel / Ek Teknolojiler
+## Optional / Additional Technologies
 ## ==========================================
-# Frontend (Eğer projenizde Blazor/SPA varsa)
+# Frontend (if project has Blazor/SPA)
 node_modules/
 /dist/
 /.angular/
@@ -125,17 +126,17 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Docker ve Local Yayın (Publish)
+# Docker and Local Publish
 .dockerignore
 /Publish/
 /publish/
 
 
-# Projedeki tüm www/lib ve wwwroot/lib klasörlerini ve içeriklerini tamamen engeller
+# Block all www/lib and wwwroot/lib folders and their contents
 **/www/lib/
 **/wwwroot/lib/
 
-# Alternatif olarak ismi sadece 'lib' olan ve web kök dizinlerinde bulunan klasörler için:
+# Alternatively, for folders named 'lib' in web root directories:
 wwwroot/lib/
 www/lib/
 .claude
