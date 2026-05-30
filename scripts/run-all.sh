@@ -7,6 +7,7 @@ PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 AUTH_SERVER_DIR="$PROJECT_ROOT/src/AuthServer"
 API_DIR="$PROJECT_ROOT/src/Api"
 WEB_CLIENT_DIR="$PROJECT_ROOT/src/WebClient"
+SIGNING_CERT="$AUTH_SERVER_DIR/signing.pfx"
 
 cleanup() {
     echo ""
@@ -35,6 +36,11 @@ echo -e "\033[1;30mChecking active network ports...\033[0m"
 for port in 5001 5002 5003; do
     kill_port "$port"
 done
+
+if [ ! -f "$SIGNING_CERT" ]; then
+    echo -e "\033[1;30mLocal signing certificate is missing. Creating it...\033[0m"
+    SKIP_RESTORE=1 SKIP_HTTPS_TRUST=1 "$SCRIPT_DIR/setup-dev.sh"
+fi
 
 echo -e "\033[1;30mBuilding all projects...\033[0m"
 dotnet build "$PROJECT_ROOT" --nologo -v q

@@ -66,15 +66,25 @@ swapped independently later without touching the others:
 
 ## Running
 
-Requires the .NET 8 runtime (projects target `net8.0`).
+Requires the .NET 10 SDK/runtime (projects target `net10.0`).
 
-Trust the local HTTPS dev certificate once:
+For a fresh clone, run the setup script once:
 
 ```bash
-dotnet dev-certs https --trust
+scripts/setup-dev.sh
 ```
 
-Then run each project in its own terminal:
+It restores packages, creates the local `src/AuthServer/signing.pfx` certificate
+used for token signing, and trusts the ASP.NET Core HTTPS development certificate.
+The generated `.pfx` is intentionally git-ignored.
+
+Then start all three services:
+
+```bash
+scripts/run-all.sh
+```
+
+Or run each project in its own terminal:
 
 ```bash
 dotnet run --project src/AuthServer    # https://localhost:5001
@@ -84,6 +94,19 @@ dotnet run --project src/WebClient     # https://localhost:5002
 
 Open **https://localhost:5002**, click **Sign in**, and log in with a test user.
 On the **Secure** page you can inspect your tokens/claims and call the protected API.
+
+## Verify
+
+```bash
+dotnet build VefaCustomAuth.Quickstart.slnx --nologo
+scripts/smoke-test.sh
+```
+
+The smoke test starts the AuthServer, Api, and WebClient, checks OIDC discovery,
+verifies the API rejects anonymous requests, signs in as `alice`, follows the
+authorization-code callback, opens the secure page, and calls the protected API.
+
+GitHub Actions runs the same build and smoke-test flow in `.github/workflows/ci.yml`.
 
 ### Test users
 
@@ -108,6 +131,14 @@ The SQLite databases are created automatically on startup (`EnsureCreated`) and 
 git-ignored. All table names are prefix-free (e.g. `Users`/`Roles`, `Clients`/`Scopes`/
 `RefreshTokens`, `Keys`) — the Identity `AspNet*` and Vefa.CustomAuth `CustomAuth*`
 prefixes are renamed via `ToTable(...)` in each context's `OnModelCreating`.
+
+## Turning this into your own app
+
+Rename the projects/namespaces, replace the seeded users in
+`src/AuthServer/Data/SeedData.cs`, change the `web-client` registration to match
+your real client URLs, and move secrets such as certificate passwords into user
+secrets or environment variables. For production, replace `EnsureCreated` with EF
+Core migrations and use a real signing certificate from secure storage.
 
 ## The `web-client` registration
 
