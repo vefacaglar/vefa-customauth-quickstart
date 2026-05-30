@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
-
 :root {
   --bg-main: #0f0e0d;
   --bg-card: #151413;
@@ -12,14 +10,30 @@
   --primary: #cbb49c;
   --primary-text: #0f0e0d;
   
-  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+/* Force absolute size and font consistency on all inputs globally from the first frame */
+input,
+select,
+textarea,
+button {
+  font-size: 16px !important;
+  font-family: var(--font-sans) !important;
+}
+
+/* Ensure placeholder texts also match the size and font family exactly */
+input::placeholder,
+.form-control::placeholder {
+  font-size: 16px !important;
+  font-family: var(--font-sans) !important;
 }
 
 html, body {
@@ -161,9 +175,9 @@ a:hover {
   border: 1px solid var(--border-color);
   border-radius: 6px;
   color: var(--text-white) !important;
-  font-family: var(--font-sans);
+  font-family: var(--font-sans) !important;
   padding: 0.65rem 0.85rem;
-  font-size: 0.95rem;
+  font-size: 16px !important;
   transition: border-color 0.15s ease;
 }
 .form-control:focus,
@@ -377,15 +391,58 @@ code {
   background: var(--bg-card);
 }
 
-/* Browser Autofill Overrides */
-input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active,
-input:-internal-autofill-selected,
+/* Browser Autofill Overrides (split into separate selectors to prevent browsers from discarding the entire block) */
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #090808 inset !important;
+  -webkit-text-fill-color: #f5f4f0 !important;
+  caret-color: #f5f4f0 !important;
+  font-family: var(--font-sans) !important;
+  font-size: 16px !important;
+  letter-spacing: normal !important;
+}
+
+input:-webkit-autofill:hover {
+  -webkit-box-shadow: 0 0 0 1000px #090808 inset !important;
+  -webkit-text-fill-color: #f5f4f0 !important;
+  caret-color: #f5f4f0 !important;
+  font-family: var(--font-sans) !important;
+  font-size: 16px !important;
+  letter-spacing: normal !important;
+}
+
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px #090808 inset !important;
+  -webkit-text-fill-color: #f5f4f0 !important;
+  caret-color: #f5f4f0 !important;
+  font-family: var(--font-sans) !important;
+  font-size: 16px !important;
+  letter-spacing: normal !important;
+}
+
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #090808 inset !important;
+  -webkit-text-fill-color: #f5f4f0 !important;
+  caret-color: #f5f4f0 !important;
+  font-family: var(--font-sans) !important;
+  font-size: 16px !important;
+  letter-spacing: normal !important;
+}
+
+/* Chrome-specific internal overrides */
+input:-internal-autofill-selected {
+  -webkit-box-shadow: 0 0 0 1000px #090808 inset !important;
+  -webkit-text-fill-color: #f5f4f0 !important;
+  caret-color: #f5f4f0 !important;
+  font-family: var(--font-sans) !important;
+  font-size: 16px !important;
+  letter-spacing: normal !important;
+}
+
 input:-internal-autofill-previewed {
   -webkit-box-shadow: 0 0 0 1000px #090808 inset !important;
   -webkit-text-fill-color: #f5f4f0 !important;
   caret-color: #f5f4f0 !important;
-  transition: background-color 5000s ease-in-out 0s;
+  font-family: var(--font-sans) !important;
+  font-size: 16px !important;
+  letter-spacing: normal !important;
 }
