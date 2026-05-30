@@ -11,6 +11,7 @@
   --primary-text: #0f0e0d;
   
   --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-input: Arial, Helvetica, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
@@ -23,17 +24,20 @@
 /* Force absolute size and font consistency on all inputs globally from the first frame */
 input,
 select,
-textarea,
-button {
+textarea {
+  font-family: var(--font-input) !important;
   font-size: 16px !important;
+  line-height: 1.25 !important;
+}
+
+button {
   font-family: var(--font-sans) !important;
 }
 
 /* Ensure placeholder texts also match the size and font family exactly */
 input::placeholder,
 .form-control::placeholder {
-  font-size: 16px !important;
-  font-family: var(--font-sans) !important;
+  font: inherit !important;
 }
 
 html, body {
@@ -41,6 +45,8 @@ html, body {
   background: var(--bg-main);
   color: var(--text-main);
   font-family: var(--font-sans);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
   line-height: 1.6;
@@ -175,9 +181,12 @@ a:hover {
   border: 1px solid var(--border-color);
   border-radius: 6px;
   color: var(--text-white) !important;
-  font-family: var(--font-sans) !important;
-  padding: 0.65rem 0.85rem;
+  appearance: none;
+  -webkit-appearance: none;
+  font-family: var(--font-input) !important;
   font-size: 16px !important;
+  line-height: 1.25 !important;
+  padding: 0.65rem 0.85rem;
   transition: border-color 0.15s ease;
 }
 .form-control:focus,
@@ -394,15 +403,15 @@ input:-internal-autofill-previewed {
   -webkit-box-shadow: 0 0 0 1000px #090808 inset !important;
   -webkit-text-fill-color: #f5f4f0 !important;
   caret-color: #f5f4f0 !important;
-  /* Use literal font-family instead of CSS variables to fix Chrome autofill bug */
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+  font-family: Arial, Helvetica, sans-serif !important;
   font-size: 16px !important;
+  line-height: 1.25 !important;
   letter-spacing: normal !important;
-  transition: background-color 5000s ease-in-out 0s;
 }
 
 /* Specific fix for text size inside autofilled inputs on initial load */
 input:-webkit-autofill::first-line {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+  font-family: Arial, Helvetica, sans-serif !important;
   font-size: 16px !important;
+  line-height: 1.25 !important;
 }
