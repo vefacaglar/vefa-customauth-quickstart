@@ -1,48 +1,35 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Vefa.CustomAuth.Core.Stores;
 
 namespace AuthServer.Data;
 
 /// <summary>
-/// Bridges the host user database to Vefa.CustomAuth. The authorization server
-/// calls <see cref="ValidateCredentialsAsync"/> during login and
-/// <see cref="FindByIdAsync"/> when building ID tokens / userinfo responses.
+/// Bridges ASP.NET Core Identity to Vefa.CustomAuth. Credential validation and
+/// profile lookups go through <see cref="UserManager{TUser}"/>, so Identity owns
+/// password hashing, lockout, and user persistence.
 /// </summary>
-public sealed class EfUserStore : ICustomAuthUserStore
+public sealed class IdentityUserStore : ICustomAuthUserStore
 {
-    private readonly AppDbContext _db;
-    private readonly IPasswordHasher<AppUser> _passwordHasher;
+    private readonly UserManager<AppUser> _userManager;
 
-    public EfUserStore(AppDbContext db, IPasswordHasher<AppUser> passwordHasher)
-    {
-        _db = db;
-        _passwordHasher = passwordHasher;
-    }
+    public IdentityUserStore(UserManager<AppUser> userManager) => _userManager = userManager;
 
     public async Task<CustomAuthUserInfo?> ValidateCredentialsAsync(
         string userName, string password, CancellationToken cancellationToken = default)
     {
-        var user = await _db.Users
-            .AsNoTracking()
-            .FirstOrDefaultAsync(u => u.UserName == userName, cancellationToken);
-
-        if (user is null)
+        var user = await _userManager.FindByNameAsync(userName);
+        if (user is null || !await _userManager.CheckPasswordAsync(user, password))
         {
             return null;
         }
 
-        var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
-        return result == PasswordVerificationResult.Failed ? null : ToUserInfo(user);
+        return ToUserInfo(user);
     }
 
     public async Task<CustomAuthUserInfo?> FindByIdAsync(
         string userId, CancellationToken cancellationToken = default)
     {
-        var user = await _db.Users
-            .AsNoTracking()
-            .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
-
+        var user = await _userManager.FindByIdAsync(userId);
         return user is null ? null : ToUserInfo(user);
     }
 

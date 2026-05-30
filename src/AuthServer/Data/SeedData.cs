@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Vefa.CustomAuth.Core.Managers;
 using Vefa.CustomAuth.Core.Models;
+using Vefa.CustomAuth.EntityFrameworkCore;
 using Vefa.CustomAuth.Tokens.Signing;
 
 namespace AuthServer.Data;
@@ -20,13 +21,15 @@ public static class SeedData
         using var scope = app.Services.CreateScope();
         var sp = scope.ServiceProvider;
 
-        var db = sp.GetRequiredService<AppDbContext>();
-        await db.Database.EnsureCreatedAsync();
+        // Each context owns a separate database; create them all.
+        await sp.GetRequiredService<CustomAuthDbContext>().Database.EnsureCreatedAsync();
+        await sp.GetRequiredService<ApplicationDbContext>().Database.EnsureCreatedAsync();
+        await sp.GetRequiredService<DataProtectionKeysDbContext>().Database.EnsureCreatedAsync();
 
         await SeedSigningKeyAsync(sp);
         await SeedScopesAsync(sp);
         await SeedClientsAsync(sp, app.Configuration);
-        await SeedUsersAsync(db, sp.GetRequiredService<IPasswordHasher<AppUser>>());
+        await SeedUsersAsync(sp.GetRequiredService<UserManager<AppUser>>());
     }
 
     private static async Task SeedSigningKeyAsync(IServiceProvider sp)
@@ -88,32 +91,34 @@ public static class SeedData
         }
     }
 
-    private static async Task SeedUsersAsync(AppDbContext db, IPasswordHasher<AppUser> hasher)
+    private static async Task SeedUsersAsync(UserManager<AppUser> userManager)
     {
-        if (await db.Users.AnyAsync())
+        await CreateUserAsync(userManager, "alice", "alice@example.com", "Alice", "Smith");
+        await CreateUserAsync(userManager, "bob", "bob@example.com", "Bob", "Jones");
+    }
+
+    private static async Task CreateUserAsync(
+        UserManager<AppUser> userManager, string userName, string email, string givenName, string familyName)
+    {
+        if (await userManager.FindByNameAsync(userName) is not null)
         {
             return;
         }
 
-        var alice = new AppUser
+        var user = new AppUser
         {
-            UserName = "alice",
-            Email = "alice@example.com",
-            GivenName = "Alice",
-            FamilyName = "Smith",
+            UserName = userName,
+            Email = email,
+            EmailConfirmed = true,
+            GivenName = givenName,
+            FamilyName = familyName,
         };
-        alice.PasswordHash = hasher.HashPassword(alice, TestPassword);
 
-        var bob = new AppUser
+        var result = await userManager.CreateAsync(user, TestPassword);
+        if (!result.Succeeded)
         {
-            UserName = "bob",
-            Email = "bob@example.com",
-            GivenName = "Bob",
-            FamilyName = "Jones",
-        };
-        bob.PasswordHash = hasher.HashPassword(bob, TestPassword);
-
-        db.Users.AddRange(alice, bob);
-        await db.SaveChangesAsync();
+            throw new InvalidOperationException(
+                $"Failed to seed user '{userName}': {string.Join(", ", result.Errors.Select(e => e.Description))}");
+        }
     }
 }

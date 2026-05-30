@@ -1,4 +1,5 @@
 using AuthServer.Data;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Vefa.CustomAuth.AspNetCore.Extensions;
@@ -9,20 +10,42 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
 
-var connectionString = builder.Configuration.GetConnectionString("CustomAuth")
+var protocolConnectionString = builder.Configuration.GetConnectionString("CustomAuth")
     ?? "Data Source=customauth.db";
+var applicationConnectionString = builder.Configuration.GetConnectionString("Application")
+    ?? "Data Source=application.db";
+var dataProtectionConnectionString = builder.Configuration.GetConnectionString("DataProtection")
+    ?? "Data Source=dataprotection.db";
 
-// --- Persistence (EF Core + SQLite) ---------------------------------------
-// AppDbContext derives from CustomAuthDbContext and adds the host-owned Users
-// table. Registering the EF stores BEFORE AddCustomAuth ensures the EF-backed
-// stores win the TryAdd registrations (AddCustomAuth would otherwise register
-// in-memory scope/audit stores).
-builder.Services.AddDbContext<AppDbContext>(o => o.UseSqlite(connectionString));
-builder.Services.AddCustomAuthStores<AppDbContext>();
+// Each concern lives in its own DbContext / database, so any one of them can be
+// swapped independently later (e.g. protocol stores -> MongoDB via
+// Vefa.CustomAuth.MongoDB, Data Protection keys -> Redis) without touching the
+// others.
 
-// The host owns user persistence.
-builder.Services.AddSingleton<IPasswordHasher<AppUser>, PasswordHasher<AppUser>>();
-builder.Services.AddScoped<ICustomAuthUserStore, EfUserStore>();
+// --- 1) CustomAuth protocol persistence (EF Core + SQLite) -----------------
+// Registers the built-in CustomAuthDbContext + EF stores. Done BEFORE
+// AddCustomAuth so the EF stores win the TryAdd registrations (otherwise
+// AddCustomAuth registers in-memory scope/audit stores).
+builder.Services.AddCustomAuthEntityFrameworkCore(o => o.UseSqlite(protocolConnectionString));
+
+// --- 2) Main application database + ASP.NET Core Identity -------------------
+// ApplicationDbContext is the primary app database (Identity tables today, more
+// application entities later).
+builder.Services.AddDbContext<ApplicationDbContext>(o => o.UseSqlite(applicationConnectionString));
+builder.Services
+    .AddIdentityCore<AppUser>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+// Expose Identity users to Vefa.CustomAuth.
+builder.Services.AddScoped<ICustomAuthUserStore, IdentityUserStore>();
+
+// --- 3) Data Protection key ring (its own DbContext + database) -------------
+// Persisted + fixed application name => every instance behind a load balancer
+// shares the keys (web-farm). To move to Redis later, swap PersistKeysToDbContext
+// for PersistKeysToStackExchangeRedis and drop DataProtectionKeysDbContext.
+builder.Services.AddDbContext<DataProtectionKeysDbContext>(o => o.UseSqlite(dataProtectionConnectionString));
+builder.Services.AddDataProtection()
+    .SetApplicationName("vefa-customauth-authserver")
+    .PersistKeysToDbContext<DataProtectionKeysDbContext>();
 
 // --- Vefa.CustomAuth authorization server ----------------------------------
 builder.Services

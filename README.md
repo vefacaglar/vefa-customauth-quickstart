@@ -7,7 +7,7 @@ It contains three ASP.NET Core projects:
 
 | Project | Role | Default URL |
 | --- | --- | --- |
-| **`src/AuthServer`** | Authorization server (OAuth2 / OIDC provider). Razor Pages UI for login/logout. EF Core + SQLite persistence. | `https://localhost:5001` |
+| **`src/AuthServer`** | Authorization server (OAuth2 / OIDC provider). Razor Pages UI for login/logout. ASP.NET Core Identity users + EF Core/SQLite persistence. | `https://localhost:5001` |
 | **`src/WebClient`** | Relying-party web app. Signs users in with OpenID Connect and calls the API. Razor Pages. | `https://localhost:5002` |
 | **`src/Api`** | Protected resource. Validates JWT access tokens and authorizes by scope. | `https://localhost:5003` |
 
@@ -41,6 +41,28 @@ It contains three ASP.NET Core projects:
 The authorization-server packages ship **no HTML** — the host owns the login/logout
 pages. This quickstart implements them as Razor Pages and opens the SSO session with
 `HttpContext.SignInCustomAuthAsync(...)`.
+
+### Users (ASP.NET Core Identity)
+
+Users are **host-owned**. This quickstart backs them with ASP.NET Core Identity:
+[`IdentityUserStore`](src/AuthServer/Data/IdentityUserStore.cs) implements
+`ICustomAuthUserStore` over `UserManager<AppUser>`, so Identity owns password hashing,
+lockout, and user persistence.
+
+### Three separate DbContexts (one concern each)
+
+Each concern has its own `DbContext` and its own SQLite database, so any one can be
+swapped independently later without touching the others:
+
+| Context | Database | Concern | Future swap |
+| --- | --- | --- | --- |
+| [`ApplicationDbContext`](src/AuthServer/Data/ApplicationDbContext.cs) | `application.db` | Main app DB — Identity users/roles (+ future app entities) | external IdP, another user store |
+| `CustomAuthDbContext` (built-in) | `customauth.db` | OAuth2/OIDC protocol stores | MongoDB (`Vefa.CustomAuth.MongoDB`), in-memory |
+| [`DataProtectionKeysDbContext`](src/AuthServer/Data/DataProtectionKeysDbContext.cs) | `dataprotection.db` | Data Protection key ring | Redis (`PersistKeysToStackExchangeRedis`) |
+
+> Note: because each context owns a separate database file, `EnsureCreated` works
+> for all three. Two contexts pointed at the *same* SQLite file would not (it is
+> all-or-nothing per database) — use separate databases or EF migrations.
 
 ## Running
 
