@@ -384,58 +384,25 @@ code {
   background: var(--bg-card);
 }
 
-/* Browser Autofill Overrides (split into separate selectors to prevent browsers from discarding the entire block) */
-input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0 1000px #090808 inset !important;
-  -webkit-text-fill-color: #f5f4f0 !important;
-  caret-color: #f5f4f0 !important;
-  font-family: var(--font-sans) !important;
-  font-size: 16px !important;
-  letter-spacing: normal !important;
-}
-
-input:-webkit-autofill:hover {
-  -webkit-box-shadow: 0 0 0 1000px #090808 inset !important;
-  -webkit-text-fill-color: #f5f4f0 !important;
-  caret-color: #f5f4f0 !important;
-  font-family: var(--font-sans) !important;
-  font-size: 16px !important;
-  letter-spacing: normal !important;
-}
-
-input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 1000px #090808 inset !important;
-  -webkit-text-fill-color: #f5f4f0 !important;
-  caret-color: #f5f4f0 !important;
-  font-family: var(--font-sans) !important;
-  font-size: 16px !important;
-  letter-spacing: normal !important;
-}
-
-input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 1000px #090808 inset !important;
-  -webkit-text-fill-color: #f5f4f0 !important;
-  caret-color: #f5f4f0 !important;
-  font-family: var(--font-sans) !important;
-  font-size: 16px !important;
-  letter-spacing: normal !important;
-}
-
-/* Chrome-specific internal overrides */
-input:-internal-autofill-selected {
-  -webkit-box-shadow: 0 0 0 1000px #090808 inset !important;
-  -webkit-text-fill-color: #f5f4f0 !important;
-  caret-color: #f5f4f0 !important;
-  font-family: var(--font-sans) !important;
-  font-size: 16px !important;
-  letter-spacing: normal !important;
-}
-
+/* Browser Autofill Overrides */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active,
+input:-internal-autofill-selected,
 input:-internal-autofill-previewed {
   -webkit-box-shadow: 0 0 0 1000px #090808 inset !important;
   -webkit-text-fill-color: #f5f4f0 !important;
   caret-color: #f5f4f0 !important;
-  font-family: var(--font-sans) !important;
+  /* Use literal font-family instead of CSS variables to fix Chrome autofill bug */
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
   font-size: 16px !important;
   letter-spacing: normal !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Specific fix for text size inside autofilled inputs on initial load */
+input:-webkit-autofill::first-line {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+  font-size: 16px !important;
 }
